@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>deckimportexport</id>
+    <name>Deck Import Export</name>
+    <summary>Nextcloud app that allows Deck import or export from or to file</summary>
+    <description><![CDATA[Nextcloud app that allows Deck import or export from or to file]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="hello@newro.co" homepage="https://newro.co">newroco</author>
+    <namespace>DeckImportExport</namespace>
+    <category>tools</category>
+    <bugs>https://github.com/newroco/DeckImportExport/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="15" max-version="15"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Deck Import Export</name>
+            <route>deckimportexport.page.index</route>
+        </navigation>
+    </navigations>
+</info>

@@ -1,0 +1,15 @@
+{
+    "name": "Deck Import Export",
+    "description": "Nextcloud app that allows Deck import or export from or to file",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "newroco"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}

@@ -1,0 +1,5 @@
+.idea/
+package-lock.json
+APP_ID.csr
+DeckImportExport.key
+vendor
