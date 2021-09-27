@@ -3,8 +3,8 @@
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>deckimportexport</id>
     <name>Deck Import Export</name>
-    <summary>Nextcloud app that allows Deck import or export from or to file</summary>
-    <description><![CDATA[Nextcloud app that allows Deck import or export from or to file]]></description>
+    <summary>nextcloud app that allows Deck import from Trello export to JSON file</summary>
+    <description><![CDATA[nextcloud app that allows Deck import from Trello export to JSON file]]></description>
     <version>0.0.1</version>
     <licence>agpl</licence>
     <author mail="hello@newro.co" homepage="https://newro.co">newroco</author>
@@ -12,7 +12,7 @@
     <category>tools</category>
     <bugs>https://github.com/newroco/DeckImportExport/issues</bugs>
     <dependencies>
-        <nextcloud min-version="18" max-version="20"/>
+        <nextcloud min-version="18" max-version="22"/>
     </dependencies>
     <settings>
         <personal>OCA\DeckImportExport\Settings\Personal</personal>

@@ -1,5 +1,5 @@
 <?php
-script('deckimportexport', 'script');
+script('deckimportexport', 'deckimportexport');
 style('deckimportexport', 'style');
 ?>
 
@@ -15,4 +15,3 @@ style('deckimportexport', 'style');
 		</div>
 	</div>
 </div>
-

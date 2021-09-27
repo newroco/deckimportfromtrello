@@ -52,7 +52,7 @@ or:
 for integration tests
 =======
 # DeckImportExport
-Nextcloud app that allows Deck import or export from or to file
+nextcloud app that allows Deck import from Trello export to JSON file
 
 # :rocket: Installation
 

@@ -9,6 +9,6 @@ style('deckimportexport', 'style');
 
 	<h2><?php p($l->t('Deck Import')); ?></h2>
 	<p class="settings-hint">
-        <?php p($l->t('Please import a json file with your Trello export.')); ?>
+        <?php p($l->t('Please select a json file with your Trello export.')); ?>
 	</p>
 </form>

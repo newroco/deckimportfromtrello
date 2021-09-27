@@ -9,6 +9,6 @@
  */
 return [
     'routes' => [
-	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+	   ['name' => 'page#store', 'url' => '/', 'verb' => 'POST'],
     ]
 ];
