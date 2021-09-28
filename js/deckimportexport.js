@@ -28,7 +28,7 @@
             type: "post",
             data: data,
             success: function (data) {
-                console.log(data);
+               //
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Something went wrong');

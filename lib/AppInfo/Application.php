@@ -1,9 +1,18 @@
 <?php
 
 namespace OCA\DeckImportExport\AppInfo;
-use OCP\AppFramework\App;
 
-class Application extends App {
+use OCA\DeckImportExport\Notification\Notifier;
+use OCA\DeckImportExport\Activity\ActivityListener;
+use OCA\DeckImportExport\Notification\NotificationListener;
+use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Notification\IManager;
+
+class Application extends App implements IBootstrap
+{
     const APP_ID = 'deckimportexport';
 
     public function __construct()
@@ -11,9 +20,28 @@ class Application extends App {
         parent::__construct(self::APP_ID);
     }
 
-    public function register()
+    public function boot(IBootContext $context): void
     {
-            $this->registerScripts();
+        if ( ! \OC::$server->getAppManager()->isEnabledForUser(self::APP_ID)) {
+            return;
+        }
+
+        $container = $this->getContainer();
+
+        $this->registerHooks($context);
+        $this->registerScripts();
+        $this->registerVarious($container);
+    }
+
+    public function register(IRegistrationContext $context): void
+    {
+
+    }
+
+    public function registerHooks($context)
+    {
+        $manager = $context->getAppContainer()->query(IManager::class);
+        $manager->registerNotifierService(Notifier::class);
     }
 
     protected function registerScripts()
@@ -21,6 +49,21 @@ class Application extends App {
         $eventDispatcher = \OC::$server->getEventDispatcher();
         $eventDispatcher->addListener('OCA\Files::loadAdditionalScripts', function() {
             script(self::APP_ID, 'deckimportexport');
+        });
+    }
+
+    protected function registerVarious($container)
+    {
+//        $container->registerService('ActivityListener', function(ContainerInterface $c){
+//            return new ActivityListener(
+//                $c->query(IManager::class),
+//                $c->query(IUserSession::class),
+//                $c->query(IAppManager::class)
+//            );
+//        });
+
+        $container->registerService('NotificationListener', function(ContainerInterface $c){
+            return new NotificationListener();
         });
     }
 }
