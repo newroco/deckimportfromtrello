@@ -1,56 +1,3 @@
-# Deck Import Export
-Place this app in **nextcloud/apps/**
-
-## Building the app
-
-The app can be built by using the provided Makefile by running:
-
-    make
-
-This requires the following things to be present:
-* make
-* which
-* tar: for building the archive
-* curl: used if phpunit and composer are not installed to fetch them from the web
-* npm: for building and testing everything JS, only required if a package.json is placed inside the **js/** folder
-
-The make command will install or update Composer dependencies if a composer.json is present and also **npm run build** if a package.json is present in the **js/** folder. The npm **build** script should use local paths for build systems and package managers, so people that simply want to build the app won't need to install npm libraries globally, e.g.:
-
-**package.json**:
-```json
-"scripts": {
-    "test": "node node_modules/gulp-cli/bin/gulp.js karma",
-    "prebuild": "npm install && node_modules/bower/bin/bower install && node_modules/bower/bin/bower update",
-    "build": "node node_modules/gulp-cli/bin/gulp.js"
-}
-```
-
-
-## Publish to App Store
-
-First get an account for the [App Store](http://apps.nextcloud.com/) then run:
-
-    make && make appstore
-
-The archive is located in build/artifacts/appstore and can then be uploaded to the App Store.
-
-## Running tests
-You can use the provided Makefile to run all tests by using:
-
-    make test
-
-This will run the PHP unit and integration tests and if a package.json is present in the **js/** folder will execute **npm run test**
-
-Of course you can also install [PHPUnit](http://phpunit.de/getting-started.html) and use the configurations directly:
-
-    phpunit -c phpunit.xml
-
-or:
-
-    phpunit -c phpunit.integration.xml
-
-for integration tests
-=======
 # DeckImportExport
 nextcloud app that allows Deck import from Trello export to JSON file
 
@@ -58,9 +5,34 @@ nextcloud app that allows Deck import from Trello export to JSON file
 
 To install it simply copy and paste the application into the apps directory of your nextcloud server instance. 
 After that log into nextcloud and if you have admin rights navigate to your account > Apps and press the search button at the top.
-Look for "Eml Viewer" and press enable. 
-When done press home button and now you should see a preview each time you click to open a .eml file.
+Look for "Deck Import Export" and press enable. 
 
-# :rocket: Updating
+# :arrows_counterclockwise: Updating
 
 After replacing the app folder, please make sure to install any new dependencies and disable then enable the app once more.
+
+# :arrow_forward: Usage
+
+Download Trello board to json file and add the file to Nectcloud. When both this app Deck are installed, for any .json file you have in your list, the three dot menu will offer a new action "Import to Deck". Click on it to start. When import completes, you will get a notification with a link to the new board. The board will have the same name as the original one on Trello.
+
+## :warning: What is imported
+
+* Labels
+* Stacks
+* Cards (title, id, description)
+* Order of Stacks, Cards etc.
+* Comments on cards
+
+## :warning: What is NOT imported
+
+* Creating archived cards: https://github.com/maxammann/trello-to-deck/issues/1
+  I have over 2000 archived cards in my personal Trello. Right now Deck can not handle this amount. Therefore currenlty no archived cards are migrated!
+* Assigning the correct people to cards
+* Attributing people to comments. We are only adding the name of the person that added the comment within the comment, but all comments appear to have been added by current user doing the import
+* Votes
+* Background
+* Cards of archived stacks
+* Checklists - not yet
+* Due-date - not yet
+* Link/Reference to the original trello card (as comment) - not yet
+* Attachments - not yet
