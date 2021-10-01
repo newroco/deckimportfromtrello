@@ -24,6 +24,8 @@ Download Trello board to json file and add the file to Nextcloud. When both this
 * Card due dates
 * Order of Stacks, Cards etc.
 * Comments on cards
+* (Partially) Attachments: added as comments with name and Trello URL
+* (Partially) Card Members: added in the description of the card
 
 ## :warning: What is NOT imported
 
@@ -35,4 +37,5 @@ Download Trello board to json file and add the file to Nextcloud. When both this
 * Background
 * Cards of archived stacks
 * Link/Reference to the original trello card (as comment) - not yet
-* Attachments - not supported. In the past the Trello JSON export had for attachments a public URL, now in order to download the attachment Trello requires authentication
+* (*) Attachments - not supported. In the past the Trello JSON export had for attachments a public URL, now in order to download the attachment Trello requires authentication. The app imports then as comments.
+* (*) Card Members - not supported. Trello does not export the users' emails, only the names so the app uses them in the description of the card.

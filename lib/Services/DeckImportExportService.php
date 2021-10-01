@@ -208,13 +208,15 @@ class DeckImportExportService
             $dueDate = $card['due'];
 
             if (count($card['idMembers'])) {
-                $description .= ' was assigned to ';
+                $description .= "\n Card was assigned to ";
 
                 foreach ($card['idMembers'] as $key => $member) {
                     $card['idMembers'][$key] = $this->members[$member];
                 }
 
                 $description .= implode($card['idMembers'], ',');
+
+                $description .= "\n";
             }
 
             if (count($card['idChecklists'])) {
@@ -238,6 +240,7 @@ class DeckImportExportService
             $this->cards[$id] = $cardId;
 
 //            $this->createAttachments($card, $cardId);
+            $this->addAttachmentsAsComments($card, $cardId);
         }
     }
 
@@ -367,6 +370,25 @@ class DeckImportExportService
     private function createComment(int $cardId, string $message, int $parentId)
     {
         return $this->commentService->create($cardId, $message, $parentId);
+    }
+
+    protected function addAttachmentsAsComments(array $card, int $cardId)
+    {
+        if (count($card['attachments']) === 0) {
+            return;
+        }
+
+        $message = "Trello Attachments \n\n";
+
+        foreach ($card['attachments'] as $attachment) {
+            if (!$attachment['isUpload']) {
+                continue;
+            }
+
+            $message .= " - " . $attachment['name'] . " (". $attachment['url'] . ")\n";
+        }
+
+        $this->createComment($cardId, $message, 0);
     }
 
 //    protected function createAttachments(array $card, int $cardId)
