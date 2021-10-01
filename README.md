@@ -13,13 +13,15 @@ After replacing the app folder, please make sure to install any new dependencies
 
 # :arrow_forward: Usage
 
-Download Trello board to json file and add the file to Nectcloud. When both this app Deck are installed, for any .json file you have in your list, the three dot menu will offer a new action "Import to Deck". Click on it to start. When import completes, you will get a notification with a link to the new board. The board will have the same name as the original one on Trello.
+Download Trello board to json file and add the file to Nextcloud. When both this app Deck are installed, for any .json file you have in your list, the three dot menu will offer a new action "Import to Deck". Click on it to start. When import completes, you will get a notification with a link to the new board. The board will have the same name as the original one on Trello.
 
 ## :warning: What is imported
 
 * Labels
 * Stacks
 * Cards (title, id, description)
+* Card checklists
+* Card due dates
 * Order of Stacks, Cards etc.
 * Comments on cards
 
@@ -32,7 +34,5 @@ Download Trello board to json file and add the file to Nectcloud. When both this
 * Votes
 * Background
 * Cards of archived stacks
-* Checklists - not yet
-* Due-date - not yet
 * Link/Reference to the original trello card (as comment) - not yet
-* Attachments - not yet
+* Attachments - not supported. In the past the Trello JSON export had for attachments a public URL, now in order to download the attachment Trello requires authentication
