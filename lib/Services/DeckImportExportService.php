@@ -2,7 +2,7 @@
 
 namespace OCA\DeckImportExport\Services;
 
-
+use OCA\Deck\Service\AttachmentService;
 use OCA\Deck\Service\BoardService;
 use OCA\Deck\Service\CardService;
 use OCA\Deck\Service\CommentService;
@@ -16,6 +16,10 @@ class DeckImportExportService
      * @var BoardService
      */
     private $boardService;
+    /**
+     * @var AttachmentService
+     */
+    private $attachmentService;
     /**
      * @var
      */
@@ -67,19 +71,23 @@ class DeckImportExportService
     /**
      * DeckImportExportService constructor.
      */
-    public function __construct(BoardService   $boardService,
-                                StackService   $stackService,
-                                LabelService   $labelService,
-                                CardService    $cardService,
-                                CommentService $commentService,
-                                               $userId)
+    public function __construct(
+        BoardService      $boardService,
+        AttachmentService $attachmentService,
+        StackService      $stackService,
+        LabelService      $labelService,
+        CardService       $cardService,
+        CommentService    $commentService,
+                          $userId
+    )
     {
+        $this->attachmentService = $attachmentService;
         $this->boardService = $boardService;
-        $this->userId = $userId;
         $this->stackService = $stackService;
         $this->labelService = $labelService;
         $this->cardService = $cardService;
         $this->commentService = $commentService;
+        $this->userId = $userId;
     }
 
     /**
@@ -88,11 +96,15 @@ class DeckImportExportService
     public function parseJsonAndImport($jsonFile)
     {
         $data = json_decode($jsonFile, true);
+
         $this->board = $this->createTheBoard($data['name']);
+
         $this->parseLabels($data['labels']);
         $this->parseStacks($data['lists']);
         $this->parseMembersName($data['members']);
-        $this->parseCards($data['cards']);
+
+        $this->parseCards($data['cards'], $data['checklists']);
+
         $this->parseComments($data['actions']);
 
         return $this->board;
@@ -173,32 +185,59 @@ class DeckImportExportService
     /**
      * Parse the cards
      *
-     * @param $cards
+     * @param $cards , $checklists
      */
-    private function parseCards($cards)
+    private function parseCards($cards, $checklists)
     {
+        $checklistsMapper = [];
+
+        foreach ($checklists as $checklist) {
+            $checklistsMapper[$checklist['id']] = $checklist;
+        }
+
         foreach ($cards as $card) {
             //check if card is closed or stack is closed
             if ($card['closed'] || !array_key_exists($card['idList'], $this->stacks)) {
                 continue;
             }
+
             $id = $card['id'];
             $title = $card['name'];
             $description = $card['desc'];
             $newStackID = $this->stacks[$card['idList']];
+            $dueDate = $card['due'];
 
             if (count($card['idMembers'])) {
                 $description .= ' was assigned to ';
+
                 foreach ($card['idMembers'] as $key => $member) {
                     $card['idMembers'][$key] = $this->members[$member];
                 }
+
                 $description .= implode($card['idMembers'], ',');
             }
 
+            if (count($card['idChecklists'])) {
+                $description .= "## Checklists\n\n";
+
+                foreach ($card['idChecklists'] as $idChecklist) {
+                    $checklist = $checklistsMapper[$idChecklist];
+
+                    $description .= '### ' . $checklist['name'] . "\n\n";
+
+                    foreach ($checklist['checkItems'] as $checkItem) {
+                        $description .= "- " . ($checkItem['state'] === 'complete' ? '[x]' : '[ ]') . ' ' . $checkItem['name'] . "\n";
+                    }
+                }
+            }
 
             $order = $card['idShort'];
-            $cardId = $this->createCard($title, $newStackID, $order, $description);
+
+            $cardId = $this->createCard($title, $newStackID, $order, $description, $dueDate);
+
             $this->cards[$id] = $cardId;
+
+//            $this->createAttachments($card, $cardId);
         }
     }
 
@@ -226,7 +265,7 @@ class DeckImportExportService
                 continue;
             }
 
-            if ( ! isset($this->cards[$action['data']['card']['id']])) {
+            if (!isset($this->cards[$action['data']['card']['id']])) {
                 continue;
             }
 
@@ -329,4 +368,30 @@ class DeckImportExportService
     {
         return $this->commentService->create($cardId, $message, $parentId);
     }
+
+//    protected function createAttachments(array $card, int $cardId)
+//    {
+//        try {
+//            if (count($card['attachments'])) {
+//                foreach ($card['attachments'] as $attachment) {
+//                    if ( ! $attachment['isUpload']) {
+//                        continue;
+//                    }
+//
+//                    $context = stream_context_create([
+//                        'http' => [
+//                            'follow_location' => false
+//                        ]
+//                    ]);
+//
+//                    $json = file_get_contents($attachment['url'], false, $context);
+////                    $contents = json_decode($json, true);
+//
+//                    $this->attachmentService->create($cardId, 'deck_file', $json);
+//                }
+//            }
+//        } catch (\Exception $exception) {
+//            //
+//        }
+//    }
 }
