@@ -29,13 +29,11 @@ Download Trello board to json file and add the file to Nextcloud. When both this
 
 ## :warning: What is NOT imported
 
-* Creating archived cards: https://github.com/maxammann/trello-to-deck/issues/1
-  I have over 2000 archived cards in my personal Trello. Right now Deck can not handle this amount. Therefore currenlty no archived cards are migrated!
+* Creating archived cards
+* Cards of archived stacks
 * Assigning the correct people to cards
 * Attributing people to comments. We are only adding the name of the person that added the comment within the comment, but all comments appear to have been added by current user doing the import
 * Votes
 * Background
-* Cards of archived stacks
-* Link/Reference to the original trello card (as comment) - not yet
-* (*) Attachments - not supported. In the past the Trello JSON export had for attachments a public URL, now in order to download the attachment Trello requires authentication. The app imports then as comments.
+* (*) Attachments - not supported. In the past the Trello JSON export had for attachments a public URL, now in order to download the attachment Trello requires authentication. The app imports them as comments with the original link and who has access to the original attachment can access them from Deck.
 * (*) Card Members - not supported. Trello does not export the users' emails, only the names so the app uses them in the description of the card.
