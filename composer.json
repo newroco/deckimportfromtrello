@@ -1,5 +1,5 @@
 {
-    "name": "Deck Import Export",
+    "name": "Deck Import From Trello",
     "description": "nextcloud app that allows Deck import from Trello export to JSON file",
     "type": "project",
     "license": "AGPL",

@@ -1,5 +1,5 @@
 <?php
-namespace OCA\DeckImportExport\Settings;
+namespace OCA\DeckImportFromTrello\Settings;
 
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -30,7 +30,7 @@ class PersonalSection implements IIconSection {
 	 * @since 12
 	 */
 	public function getIcon() {
-		return $this->url->imagePath('deckimportexport', 'app.svg');
+		return $this->url->imagePath('deckimportfromtrello', 'app.svg');
 	}
 
 	/**
@@ -41,7 +41,7 @@ class PersonalSection implements IIconSection {
 	 * @since 9.1
 	 */
 	public function getID() {
-		return 'deckimportexport';
+		return 'deckimportfromtrello';
 	}
 
 	/**
@@ -52,7 +52,7 @@ class PersonalSection implements IIconSection {
 	 * @since 9.1
 	 */
 	public function getName() {
-		return $this->l->t('DeckImportExport');
+		return $this->l->t('DeckImportFromTrello');
 	}
 
 	/**

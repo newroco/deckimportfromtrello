@@ -1,5 +1,5 @@
 <?php
-namespace OCA\DeckImportExport\Settings;
+namespace OCA\DeckImportFromTrello\Settings;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
@@ -32,7 +32,7 @@ class Personal implements ISettings {
 	 */
 	public function getForm() {
 
-		return new TemplateResponse('deckimportexport', 'settings/personal', [
+		return new TemplateResponse('deckimportfromtrello', 'settings/personal', [
 			'setting'			=> 'personal',
 		], 'blank');
 	}
@@ -41,7 +41,7 @@ class Personal implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return 'deckimportexport';
+		return 'deckimportfromtrello';
 	}
 
 	/**

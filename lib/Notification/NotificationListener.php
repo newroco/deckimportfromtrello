@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\DeckImportExport\Notification;
+namespace OCA\DeckImportFromTrello\Notification;
 
-use OCA\DeckImportExport\Activity\FileImportEvent;
+use OCA\DeckImportFromTrello\Activity\FileImportEvent;
 
 class NotificationListener
 {
@@ -35,8 +35,8 @@ class NotificationListener
             ->setLink('deck', 'GET');
 
         $notification
-            ->setApp('deckimportexport')
-            ->setObject('deckimportexport', $fileId)
+            ->setApp('deckimportfromtrello')
+            ->setObject('deckimportfromtrello', $fileId)
             ->setSubject('fileImport', [
                 'file_imported',
                 $boardUrl,

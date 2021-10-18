@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\DeckImportExport\Activity;
+namespace OCA\DeckImportFromTrello\Activity;
 
 use OCP\Activity\IManager;
 use OCP\App\IAppManager;
@@ -39,15 +39,15 @@ class ActivityListener
      */
     public function fileImported(FileImportEvent $event)
     {
-        if ( ! $this->appManager->isInstalled('deckimportexport')) {
+        if ( ! $this->appManager->isInstalled('deckimportfromtrello')) {
             return;
         }
 
         $actor = $this->getActor();
 
         $activity = $this->activityManager->generateEvent();
-        $activity->setApp('deckimportexport')
-            ->setType('deckimportexport')
+        $activity->setApp('deckimportfromtrello')
+            ->setType('deckimportfromtrello')
             ->setAuthor($actor)
 //            ->setObject('file_imported', $event->getFileName())
             ->setMessage('file_imported', [

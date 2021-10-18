@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\DeckImportExport\Controller;
+namespace OCA\DeckImportFromTrello\Controller;
 
 use Httpful\Request;
 use OCA\Deck\Service\BoardService;
-use OCA\DeckImportExport\Activity\FileImportEvent;
-use OCA\DeckImportExport\Db\File;
-use OCA\DeckImportExport\Services\DeckImportExportService;
-use OCA\DeckImportExport\Services\UserService;
+use OCA\DeckImportFromTrello\Activity\FileImportEvent;
+use OCA\DeckImportFromTrello\Db\File;
+use OCA\DeckImportFromTrello\Services\DeckImportFromTrelloService;
+use OCA\DeckImportFromTrello\Services\UserService;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
@@ -21,16 +21,16 @@ class PageController extends Controller
     protected $storage;
     protected $server;
     /**
-     * @var DeckImportExportService
+     * @var DeckImportFromTrelloService
      */
-    private $deckImportExportService;
+    private $deckImportFromTrelloService;
 
 
     public function __construct(
         $AppName,
         IRequest $request,
         IServerContainer $server,
-        DeckImportExportService $deckImportExportService,
+        DeckImportFromTrelloService $deckImportFromTrelloService,
         IRootFolder $storage,
         $UserId
     ) {
@@ -39,7 +39,7 @@ class PageController extends Controller
         $this->server = $server;
         $this->userId = $UserId;
         $this->storage = $storage;
-        $this->deckImportExportService = $deckImportExportService;
+        $this->deckImportFromTrelloService = $deckImportFromTrelloService;
     }
 
     /**
@@ -70,7 +70,7 @@ class PageController extends Controller
             // Get board, lists and cards.
             $contents = $file->getContent();
 
-            $board = $this->deckImportExportService->parseJsonAndImport($contents);
+            $board = $this->deckImportFromTrelloService->parseJsonAndImport($contents);
 
 //            $boardUrl = ($this->server->getURLGenerator())->linkToRouteAbsolute('deck.board.read', [
 //                'boardId' => $board->getId()
@@ -86,7 +86,7 @@ class PageController extends Controller
                 UserService::getUser()
             );
 
-            $eventHandler = (new App('deckimportexport'))->getContainer()->query('OCA\DeckImportExport\Activity\EventHandler');
+            $eventHandler = (new App('deckimportfromtrello'))->getContainer()->query('OCA\DeckImportFromTrello\Activity\EventHandler');
             $eventHandler->handle($fileImportedEvent);
 
             return new JSONResponse([

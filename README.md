@@ -1,11 +1,11 @@
-# DeckImportExport
+# DeckImportFromTrello
 nextcloud app that allows Deck import from Trello export to JSON file
 
 # :rocket: Installation
 
 To install it simply copy and paste the application into the apps directory of your nextcloud server instance. 
 After that log into nextcloud and if you have admin rights navigate to your account > Apps and press the search button at the top.
-Look for "Deck Import Export" and press enable. 
+Look for "Deck Import From Trello" and press enable. 
 
 # :arrows_counterclockwise: Updating
 

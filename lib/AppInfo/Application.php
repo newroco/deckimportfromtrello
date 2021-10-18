@@ -1,10 +1,10 @@
 <?php
 
-namespace OCA\DeckImportExport\AppInfo;
+namespace OCA\DeckImportFromTrello\AppInfo;
 
-use OCA\DeckImportExport\Notification\Notifier;
-use OCA\DeckImportExport\Activity\ActivityListener;
-use OCA\DeckImportExport\Notification\NotificationListener;
+use OCA\DeckImportFromTrello\Notification\Notifier;
+use OCA\DeckImportFromTrello\Activity\ActivityListener;
+use OCA\DeckImportFromTrello\Notification\NotificationListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -13,7 +13,7 @@ use OCP\Notification\IManager;
 
 class Application extends App implements IBootstrap
 {
-    const APP_ID = 'deckimportexport';
+    const APP_ID = 'deckimportfromtrello';
 
     public function __construct()
     {
@@ -48,7 +48,7 @@ class Application extends App implements IBootstrap
     {
         $eventDispatcher = \OC::$server->getEventDispatcher();
         $eventDispatcher->addListener('OCA\Files::loadAdditionalScripts', function() {
-            script(self::APP_ID, 'deckimportexport');
+            script(self::APP_ID, 'deckimportfromtrello');
         });
     }
 

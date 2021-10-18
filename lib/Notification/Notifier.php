@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\DeckImportExport\Notification;
+namespace OCA\DeckImportFromTrello\Notification;
 
 use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
@@ -8,7 +8,7 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
-use OCA\DeckImportExport\Services\UserService;
+use OCA\DeckImportFromTrello\Services\UserService;
 
 class Notifier implements INotifier {
 
@@ -43,11 +43,11 @@ class Notifier implements INotifier {
      */
     public function prepare(INotification $notification, string $languageCode): INotification
     {
-        if ($notification->getApp() !== 'deckimportexport') {
+        if ($notification->getApp() !== 'deckimportfromtrello') {
             throw new \InvalidArgumentException();
         }
 
-        $l = $this->l10nFactory->get('deckimportexport', $languageCode);
+        $l = $this->l10nFactory->get('deckimportfromtrello', $languageCode);
 
         $parameters = $notification->getSubjectParameters();
 
@@ -87,7 +87,7 @@ class Notifier implements INotifier {
         );
 
         $notification->setIcon(
-            $this->url->getAbsoluteURL($this->url->imagePath('deckimportexport', 'app.svg'))
+            $this->url->getAbsoluteURL($this->url->imagePath('deckimportfromtrello', 'app.svg'))
         );
 
         $action = $notification->getActions()[0];
@@ -102,11 +102,11 @@ class Notifier implements INotifier {
 
     public function getID(): string
     {
-        return 'deckimportexport';
+        return 'deckimportfromtrello';
     }
 
     public function getName(): string
     {
-        return $this->lFactory->get('deckimportexport')->t('deckimportexport');
+        return $this->lFactory->get('deckimportfromtrello')->t('deckimportfromtrello');
     }
 }

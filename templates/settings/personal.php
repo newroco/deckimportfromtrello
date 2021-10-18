@@ -1,11 +1,11 @@
 <?php
-script('deckimportexport', 'script');
-style('deckimportexport', 'style');
+script('deckimportfromtrello', 'script');
+style('deckimportfromtrello', 'style');
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
 ?>
 
-<form id="deckimportexport_form" class="section">
+<form id="deckimportfromtrello_form" class="section">
 
 	<h2><?php p($l->t('Deck Import')); ?></h2>
 	<p class="settings-hint">

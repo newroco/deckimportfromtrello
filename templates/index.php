@@ -1,6 +1,6 @@
 <?php
-script('deckimportexport', 'deckimportexport');
-style('deckimportexport', 'style');
+script('deckimportfromtrello', 'deckimportfromtrello');
+style('deckimportfromtrello', 'style');
 ?>
 
 <div id="app">

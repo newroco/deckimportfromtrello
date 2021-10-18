@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\DeckImportExport\Services;
+namespace OCA\DeckImportFromTrello\Services;
 
 use OCA\Deck\Service\AttachmentService;
 use OCA\Deck\Service\BoardService;
@@ -10,7 +10,7 @@ use OCA\Deck\Service\LabelService;
 use OCA\Deck\Service\StackService;
 use Httpful\Request;
 
-class DeckImportExportService
+class DeckImportFromTrelloService
 {
     /**
      * @var BoardService
@@ -69,7 +69,7 @@ class DeckImportExportService
 
 
     /**
-     * DeckImportExportService constructor.
+     * DeckImportFromTrelloService constructor.
      */
     public function __construct(
         BoardService      $boardService,

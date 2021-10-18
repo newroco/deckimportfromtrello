@@ -1,8 +1,8 @@
 <?php
 
-namespace OCA\DeckImportExport\Activity;
+namespace OCA\DeckImportFromTrello\Activity;
 
-use OCA\DeckImportExport\Notification\NotificationListener;
+use OCA\DeckImportFromTrello\Notification\NotificationListener;
 
 class EventHandler
 {

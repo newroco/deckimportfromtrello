@@ -1,5 +1,5 @@
 .idea/
 package-lock.json
 APP_ID.csr
-DeckImportExport.key
+DeckImportFromTrello.key
 vendor

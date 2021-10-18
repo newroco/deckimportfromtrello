@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\DeckImportExport\Activity;
+namespace OCA\DeckImportFromTrello\Activity;
 
 use Symfony\Component\EventDispatcher\Event;
 

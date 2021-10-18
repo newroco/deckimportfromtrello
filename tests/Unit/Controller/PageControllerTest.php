@@ -1,12 +1,12 @@
 <?php
 
-namespace OCA\DeckImportExport\Tests\Unit\Controller;
+namespace OCA\DeckImportFromTrello\Tests\Unit\Controller;
 
 use PHPUnit_Framework_TestCase;
 
 use OCP\AppFramework\Http\TemplateResponse;
 
-use OCA\DeckImportExport\Controller\PageController;
+use OCA\DeckImportFromTrello\Controller\PageController;
 
 
 class PageControllerTest extends PHPUnit_Framework_TestCase {
@@ -17,7 +17,7 @@ class PageControllerTest extends PHPUnit_Framework_TestCase {
 		$request = $this->getMockBuilder('OCP\IRequest')->getMock();
 
 		$this->controller = new PageController(
-			'deckimportexport', $request, $this->userId
+			'deckimportfromtrello', $request, $this->userId
 		);
 	}
 

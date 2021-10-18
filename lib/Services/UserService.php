@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\DeckImportExport\Services;
+namespace OCA\DeckImportFromTrello\Services;
 
 use OCP\IUser;
 
