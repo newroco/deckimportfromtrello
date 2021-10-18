@@ -2,7 +2,7 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>deckimportfromtrello</id>
-    <name>Deck Import Export</name>
+    <name>Deck Import From Trello</name>
     <summary>nextcloud app that allows Deck import from Trello export to JSON file</summary>
     <description><![CDATA[nextcloud app that allows Deck import from Trello export to JSON file]]></description>
     <version>0.0.2</version>
