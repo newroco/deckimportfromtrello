@@ -8,7 +8,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
-use OCA\DeckImportFromTrello\Services\UserService;
 
 class Notifier implements INotifier {
 
