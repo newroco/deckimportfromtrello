@@ -354,6 +354,10 @@ class DeckImportFromTrelloService
      */
     private function createCard($title, $stackID, $order, $description, $duedate = null)
     {
+        if(mb_strlen($title) > 255){
+            $description = 'Full title: ' . $title . "\n\n". $description;
+            $title = mb_substr($title,0,255);
+        }
         $card = $this->cardService->create($title, $stackID, 'plain', $order, $this->userId, $description, $duedate);
         return $card->id;
     }
