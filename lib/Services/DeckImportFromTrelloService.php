@@ -214,7 +214,7 @@ class DeckImportFromTrelloService
                     $card['idMembers'][$key] = $this->members[$member];
                 }
 
-                $description .= implode($card['idMembers'], ',');
+                $description .= implode(',',$card['idMembers']);
 
                 $description .= "\n";
             }
