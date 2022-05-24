@@ -5,7 +5,7 @@
     <name>Deck Import From Trello</name>
     <summary>nextcloud app that allows Deck import from Trello export to JSON file</summary>
     <description><![CDATA[nextcloud app that allows Deck import from Trello export to JSON file]]></description>
-    <version>0.0.3</version>
+    <version>1.0.1</version>
     <licence>agpl</licence>
     <author mail="hello@newro.co" homepage="https://newro.co">newroco</author>
     <namespace>DeckImportFromTrello</namespace>
