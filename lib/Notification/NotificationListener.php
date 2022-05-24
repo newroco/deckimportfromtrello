@@ -17,19 +17,20 @@ class NotificationListener
     {
         $boardUrl = $event->getBoardUrl();
         $fileId = $event->getFileId();
-        $user = $event->getUser();
+        $userId = $event->getUserId();
+        $userManager = \OC::$server->getUserManager();
+        $user = $userManager->get($userId);
 
         $notification = $this->instantiateNotification($boardUrl, $fileId, $user->getDisplayName());
 
-        $notification->setUser($user->getUID());
+        $notification->setUser($userId);
 
         $this->notificationManager->notify($notification);
     }
 
-    public function instantiateNotification($boardUrl, $fileId, $user)
+    public function instantiateNotification($boardUrl, $fileId, $userDisplayName)
     {
         $notification = $this->notificationManager->createNotification();
-
         $acceptAction = $notification->createAction();
         $acceptAction->setLabel('view')
             ->setLink('deck', 'GET');
@@ -37,11 +38,10 @@ class NotificationListener
         $notification
             ->setApp('deckimportfromtrello')
             ->setObject('deckimportfromtrello', $fileId)
-            ->setSubject('fileImport', [
-                'file_imported',
+            ->setSubject('fileImport',['file_imported',
                 $boardUrl,
                 $fileId,
-                $user,
+                $userDisplayName,
             ])
             ->addAction($acceptAction)
             ->setDateTime(new \DateTime());

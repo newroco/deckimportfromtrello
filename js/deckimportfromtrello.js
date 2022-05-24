@@ -20,7 +20,7 @@
 
     function importFile($file) {
         var data = {
-            id: $file.attr('data-id'),
+            fileId: $file.attr('data-id'),
         };
 
         $.ajax({
@@ -28,7 +28,7 @@
             type: "post",
             data: data,
             success: function (data) {
-               //
+               alert('An import job was started, you will receive a notification when it\'s done.');
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Something went wrong');

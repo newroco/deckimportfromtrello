@@ -2,8 +2,9 @@
 
 namespace OCA\DeckImportFromTrello\Services;
 
-use OCA\Deck\Service\AttachmentService;
+
 use OCA\Deck\Service\BoardService;
+use OCA\Deck\Service\AttachmentService;
 use OCA\Deck\Service\CardService;
 use OCA\Deck\Service\CommentService;
 use OCA\Deck\Service\LabelService;
@@ -72,22 +73,27 @@ class DeckImportFromTrelloService
      * DeckImportFromTrelloService constructor.
      */
     public function __construct(
+        $userId,
         BoardService      $boardService,
         AttachmentService $attachmentService,
         StackService      $stackService,
         LabelService      $labelService,
         CardService       $cardService,
-        CommentService    $commentService,
-                          $userId
+        CommentService    $commentService
     )
     {
-        $this->attachmentService = $attachmentService;
+        $this->userId = $userId;
         $this->boardService = $boardService;
+        $this->attachmentService = $attachmentService;
         $this->stackService = $stackService;
         $this->labelService = $labelService;
         $this->cardService = $cardService;
         $this->commentService = $commentService;
+    }
+
+    public function setUserId($userId){
         $this->userId = $userId;
+        $this->boardService->setUserId($userId);
     }
 
     /**
@@ -214,7 +220,7 @@ class DeckImportFromTrelloService
                     $card['idMembers'][$key] = $this->members[$member];
                 }
 
-                $description .= implode($card['idMembers'], ',');
+                $description .= implode(',', $card['idMembers']);
 
                 $description .= "\n";
             }

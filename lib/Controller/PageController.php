@@ -3,99 +3,55 @@
 namespace OCA\DeckImportFromTrello\Controller;
 
 use Httpful\Request;
-use OCA\Deck\Service\BoardService;
-use OCA\DeckImportFromTrello\Activity\FileImportEvent;
-use OCA\DeckImportFromTrello\Db\File;
-use OCA\DeckImportFromTrello\Services\DeckImportFromTrelloService;
-use OCA\DeckImportFromTrello\Services\UserService;
+use OCA\DeckImportFromTrello\BackgroundJob\BackgroundJob;
+use OCP\BackgroundJob\IJobList;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Files\IRootFolder;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\App;
 
 class PageController extends Controller
 {
-    private $userId;
-    protected $storage;
-    protected $server;
     /**
-     * @var DeckImportFromTrelloService
+     * @var
      */
-    private $deckImportFromTrelloService;
-
+    private $userId;
+    protected $jobList;
 
     public function __construct(
         $AppName,
         IRequest $request,
-        IServerContainer $server,
-        DeckImportFromTrelloService $deckImportFromTrelloService,
-        IRootFolder $storage,
-        $UserId
+        IJobList $jobList,
+        $userId
     ) {
         parent::__construct($AppName, $request);
+        $this->jobList = $jobList;
+        $this->userId = $userId;
+    }
+    public function addJob(int $fileId,string $userId) {
+        $this->jobList->add(BackgroundJob::class, ['file_id' => $fileId, 'user_id' => $userId]);
+    }
 
-        $this->server = $server;
-        $this->userId = $UserId;
-        $this->storage = $storage;
-        $this->deckImportFromTrelloService = $deckImportFromTrelloService;
+    public function removeJob(int $fileId,string $userId) {
+        $this->jobList->remove(BackgroundJob::class, ['file_id' => $fileId, 'user_id' => $userId]);
     }
 
     /**
      * @NoAdminRequired
-     * @param $id
+     * @param $fileId
      * @return JSONResponse
      */
-    public function store($id)
+    public function store($fileId)
     {
-        if (!$id) {
+        if (!$fileId) {
             return new JSONResponse([
                 'message' => 'File required.',
             ], 403);
         }
+        $userId = \OC::$server->getUserSession()->getUser()->getUID();
+        $this->addJob($fileId,$userId);
 
-        $userFolder = $this->storage->getUserFolder($this->userId);
-
-        try {
-            // Read file contents
-            $files = $userFolder->getById((int)$id);
-            $file = $files[0];
-
-            if ( ! $file instanceof \OCP\Files\File) {
-                throw new StorageException('Can not read from folder');
-            }
-
-            // Read JSON contents
-            // Get board, lists and cards.
-            $contents = $file->getContent();
-
-            $board = $this->deckImportFromTrelloService->parseJsonAndImport($contents);
-
-//            $boardUrl = ($this->server->getURLGenerator())->linkToRouteAbsolute('deck.board.read', [
-//                'boardId' => $board->getId()
-//            ]);
-
-            $boardUrl = ($this->server->getURLGenerator())->linkToRouteAbsolute('deck.board.index');
-            $boardUrl = str_replace('/boards', '/#/board/' . $board->getId(), $boardUrl);
-
-            $fileImportedEvent = new FileImportEvent(
-                $boardUrl,
-                $file->getName(),
-                $file->getId(),
-                UserService::getUser()
-            );
-
-            $eventHandler = (new App('deckimportfromtrello'))->getContainer()->query('OCA\DeckImportFromTrello\Activity\EventHandler');
-            $eventHandler->handle($fileImportedEvent);
-
-            return new JSONResponse([
-                'content' => 'Success',
-            ]);
-        } catch (\Exception $exception) {
-            return new JSONResponse([
-                'message' => $exception->getMessage(),
-            ], 403);
-        }
+        return new JSONResponse([
+            'content' => 'success',
+        ]);
     }
 }

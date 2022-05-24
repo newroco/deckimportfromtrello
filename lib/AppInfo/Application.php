@@ -3,7 +3,6 @@
 namespace OCA\DeckImportFromTrello\AppInfo;
 
 use OCA\DeckImportFromTrello\Notification\Notifier;
-use OCA\DeckImportFromTrello\Activity\ActivityListener;
 use OCA\DeckImportFromTrello\Notification\NotificationListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;

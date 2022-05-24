@@ -9,14 +9,14 @@ class FileImportEvent extends Event
     protected $boardUrl;
     protected $fileName;
     protected $fileId;
-    protected $user;
+    protected $userId;
 
-    public function __construct($boardUrl, $fileName, $fileId, $user)
+    public function __construct($boardUrl, $fileName, $fileId, $userId)
     {
         $this->boardUrl = $boardUrl;
         $this->fileName = $fileName;
         $this->fileId = $fileId;
-        $this->user = $user;
+        $this->userId = $userId;
     }
 
     public function getBoardUrl()
@@ -34,8 +34,8 @@ class FileImportEvent extends Event
         return $this->fileId;
     }
 
-    public function getUser()
+    public function getUserId()
     {
-        return $this->user;
+        return $this->userId;
     }
 }

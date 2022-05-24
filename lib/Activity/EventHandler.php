@@ -17,7 +17,6 @@ class EventHandler
 
     public function handle(FileImportEvent $event)
     {
-//        $this->activityListener->fileImported($event);
         $this->notificationListener->handle($event);
     }
 }
