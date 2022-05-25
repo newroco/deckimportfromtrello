@@ -5,7 +5,7 @@ namespace OCA\DeckImportFromTrello\Controller;
 use Httpful\Request;
 use OCA\Deck\Service\BoardService;
 use OCA\DeckImportFromTrello\Activity\FileImportEvent;
-use OCA\DeckImportFromTrello\Db\File;
+use OCA\DeckImportFromTrello\Activity\EventHandler;
 use OCA\DeckImportFromTrello\Services\DeckImportFromTrelloService;
 use OCA\DeckImportFromTrello\Services\UserService;
 use OCP\AppFramework\Http\JSONResponse;
@@ -14,10 +14,12 @@ use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\App;
+use OCP\Files\File;
 
 class PageController extends Controller
 {
     private $userId;
+    private $eventHandler;
     protected $storage;
     protected $server;
     /**
@@ -30,8 +32,10 @@ class PageController extends Controller
         $AppName,
         IRequest $request,
         IServerContainer $server,
-        DeckImportFromTrelloService $deckImportFromTrelloService,
         IRootFolder $storage,
+        EventHandler $eventHandler,
+        DeckImportFromTrelloService $deckImportFromTrelloService,
+
         $UserId
     ) {
         parent::__construct($AppName, $request);
@@ -39,6 +43,7 @@ class PageController extends Controller
         $this->server = $server;
         $this->userId = $UserId;
         $this->storage = $storage;
+        $this->eventHandler = $eventHandler;
         $this->deckImportFromTrelloService = $deckImportFromTrelloService;
     }
 
@@ -47,9 +52,9 @@ class PageController extends Controller
      * @param $id
      * @return JSONResponse
      */
-    public function store($id)
+    public function store($fileId)
     {
-        if (!$id) {
+        if (!$fileId) {
             return new JSONResponse([
                 'message' => 'File required.',
             ], 403);
@@ -59,10 +64,10 @@ class PageController extends Controller
 
         try {
             // Read file contents
-            $files = $userFolder->getById((int)$id);
+            $files = $userFolder->getById((int)$fileId);
             $file = $files[0];
 
-            if ( ! $file instanceof \OCP\Files\File) {
+            if ( ! $file instanceof File) {
                 throw new StorageException('Can not read from folder');
             }
 
@@ -71,11 +76,6 @@ class PageController extends Controller
             $contents = $file->getContent();
 
             $board = $this->deckImportFromTrelloService->parseJsonAndImport($contents);
-
-//            $boardUrl = ($this->server->getURLGenerator())->linkToRouteAbsolute('deck.board.read', [
-//                'boardId' => $board->getId()
-//            ]);
-
             $boardUrl = ($this->server->getURLGenerator())->linkToRouteAbsolute('deck.board.index');
             $boardUrl = str_replace('/boards', '/#/board/' . $board->getId(), $boardUrl);
 
@@ -86,11 +86,11 @@ class PageController extends Controller
                 UserService::getUser()
             );
 
-            $eventHandler = (new App('deckimportfromtrello'))->getContainer()->query('OCA\DeckImportFromTrello\Activity\EventHandler');
-            $eventHandler->handle($fileImportedEvent);
+            $this->eventHandler->handle($fileImportedEvent);
 
             return new JSONResponse([
                 'content' => 'Success',
+                'boardUrl' => $boardUrl
             ]);
         } catch (\Exception $exception) {
             return new JSONResponse([

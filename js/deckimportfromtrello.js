@@ -20,18 +20,25 @@
 
     function importFile($file) {
         var data = {
-            id: $file.attr('data-id'),
+            fileId: $file.attr('data-id'),
         };
+        OCP.Toast.info('Board import started.');
 
         $.ajax({
             url: url,
             type: "post",
             data: data,
             success: function (data) {
-               //
+                if(data.boardUrl){
+                    OCP.Toast.info('<a href="' + data.boardUrl + '">Board was imported successfully</a>',{'isHTML':true});
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert('Something went wrong');
+                let message = '';
+                if(jqXHR.responseJSON &&  jqXHR.responseJSON.message){
+                    message = jqXHR.responseJSON.message;
+                }
+                OCP.Toast.error('Something went wrong: ' + message);
             },
         });
     }

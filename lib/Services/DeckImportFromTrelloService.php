@@ -208,7 +208,7 @@ class DeckImportFromTrelloService
             $dueDate = $card['due'];
 
             if (count($card['idMembers'])) {
-                $description .= "\n Card was assigned to ";
+                $description .= "\n\n Card was assigned to ";
 
                 foreach ($card['idMembers'] as $key => $member) {
                     $card['idMembers'][$key] = $this->members[$member];
@@ -216,7 +216,7 @@ class DeckImportFromTrelloService
 
                 $description .= implode(',',$card['idMembers']);
 
-                $description .= "\n";
+                $description .= "\n\n";
             }
 
             if (count($card['idChecklists'])) {
@@ -233,6 +233,18 @@ class DeckImportFromTrelloService
                 }
             }
 
+            if (count($card['attachments'])) {
+
+                $description .= "\n\nTrello Attachments: \n";
+
+                foreach ($card['attachments'] as $attachment) {
+                    if (!$attachment['isUpload']) {
+                        continue;
+                    }
+                    $description .= " - " . $attachment['name'] . " (" . $attachment['url'] . ")\n";
+                }
+            }
+
             $order = $card['idShort'];
 
             $cardId = $this->createCard($title, $newStackID, $order, $description, $dueDate);
@@ -240,7 +252,6 @@ class DeckImportFromTrelloService
             $this->cards[$id] = $cardId;
 
 //            $this->createAttachments($card, $cardId);
-            $this->addAttachmentsAsComments($card, $cardId);
         }
     }
 
@@ -373,7 +384,14 @@ class DeckImportFromTrelloService
      */
     private function createComment(int $cardId, string $message, int $parentId)
     {
-        return $this->commentService->create($cardId, $message, $parentId);
+        while(mb_strlen($message) > 1000){
+            $subComment = mb_substr($message,0,1000);
+            $this->commentService->create($cardId, $subComment, $parentId);
+            $message = mb_substr($message,1000);
+        }
+        if(mb_strlen($message) > 0){
+            $this->commentService->create($cardId, $message, $parentId);
+        }
     }
 
     protected function addAttachmentsAsComments(array $card, int $cardId)
