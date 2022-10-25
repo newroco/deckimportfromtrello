@@ -13,9 +13,13 @@ After replacing the app folder, please make sure to install any new dependencies
 
 # :arrow_forward: Usage
 
-Download Trello board to json file and add the file to Nextcloud. When both this app Deck are installed, for any .json file you have in your list, the three dot menu will offer a new action "Import to Deck". Click on it to start. When import completes, you will get a notification with a link to the new board. The board will have the same name as the original one on Trello.
+1. Export / Download Trello board as JSON file and add the file to Nextcloud.
+2. Make sure, the Apps `Deck` and `deckImportFromTrello` are installed.
+3. Go To your uploaded JSON-File in the `Files` Section of NextCloud and click the three dots behind your JSON-File.
+4. You'll see a menu which offers the new action: `Import to Deck`. Click on it to start. 
+5. When import completes, you will get a notification with a link to the new board. The board will have the same name as the original one on Trello.
 
-## :warning: What is imported
+## :heavy_check_mark: What is imported
 
 * Labels
 * Stacks
