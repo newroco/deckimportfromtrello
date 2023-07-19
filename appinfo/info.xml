@@ -5,14 +5,14 @@
     <name>Deck Import From Trello</name>
     <summary>nextcloud app that allows Deck import from Trello export to JSON file</summary>
     <description><![CDATA[nextcloud app that allows Deck import from Trello export to JSON file]]></description>
-    <version>1.0.2</version>
+    <version>1.0.2wga</version>
     <licence>agpl</licence>
     <author mail="hello@newro.co" homepage="https://newro.co">newroco</author>
     <namespace>DeckImportFromTrello</namespace>
     <category>tools</category>
     <bugs>https://github.com/newroco/DeckImportFromTrello/issues</bugs>
     <dependencies>
-        <nextcloud min-version="18" max-version="24"/>
+        <nextcloud min-version="18" max-version="27"/>
     </dependencies>
     <settings>
         <personal>OCA\DeckImportFromTrello\Settings\Personal</personal>

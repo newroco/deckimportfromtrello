@@ -2,7 +2,7 @@
     var url = OC.generateUrl('/apps/deckimportfromtrello/');
 
     $(document).ready(function () {
-        if ($('#dir').length > 0) {
+        //if ($('#dir').length > 0) {
             OCA.Files.fileActions.registerAction({
                 name: 'deckimportfromtrello',
                 displayName: 'Import to Deck',
@@ -15,7 +15,7 @@
                     importFile(context.$file);
                 }
             });
-        }
+       // }
     });
 
     function importFile($file) {
